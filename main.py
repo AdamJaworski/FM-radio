@@ -73,8 +73,16 @@ class SpectrumAnalyzer(QMainWindow):
         self.timer = QTimer()
         self.timer.setInterval(int(pv.interval * 0.5))
         # self.timer.setInterval(20)
-        self.timer.timeout.connect(self.update_plot)
+        self.timer.timeout.connect(self.update_with_samples)
         self.timer.start()
+
+    def update_with_samples(self):
+        samples = self.sdr.rx()
+
+        if pv.play_audio:
+            audio_stream.demodulate_and_play(samples)
+
+        self.update_plot(samples)
 
     def update_plot_axis(self):
         # Update the X-axis range based on the current LO and sample rate
@@ -84,6 +92,7 @@ class SpectrumAnalyzer(QMainWindow):
         )
     def change_volume(self):
         new_lo = float(self.freq_input.text())
+
     def update_sdr_settings(self):
         try:
             # Get input values
@@ -102,15 +111,8 @@ class SpectrumAnalyzer(QMainWindow):
         except ValueError:
             print("Invalid input for frequency or bandwidth.")
 
-    def update_plot(self):
+    def update_plot(self, samples):
         try:
-            # Fetch samples from the PlutoSDR
-            samples = self.sdr.rx()
-            if pv.play_audio:
-                start = time.time()
-                audio_stream.demodulate_and_play(samples)
-                print(f'{(time.time() - start) * 1000}')
-
             # Compute the spectrum
             fft_samples = np.fft.fftshift(np.fft.fft(samples))
             spectrum = 20 * np.log10(np.abs(fft_samples))

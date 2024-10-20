@@ -14,7 +14,7 @@ volume = 0.1
 play_audio = True
 
 print(f'interval {interval}ms')
-print(f'Update every {interval * 0.5}ms')
+print(f'interval {interval * 0.5}ms')
 
 # SoundQuality: sdr_sample_rate = int(521e3), BUFFER_SAMPLES = int(5096 * 2 * 10)
 # SoundQuality: sdr_sample_rate = int(521e3), BUFFER_SAMPLES = int(5096 * 2)
