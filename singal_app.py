@@ -3,7 +3,7 @@ from tkinter import ttk
 from tkinter.scrolledtext import ScrolledText
 import numpy as np
 import matplotlib
-
+import scipy.signal as scipy
 matplotlib.use('TkAgg')  # Use TkAgg backend
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
