@@ -3,7 +3,7 @@ from tkinter import ttk
 from tkinter.scrolledtext import ScrolledText
 import numpy as np
 import matplotlib
-import scipy.signal as scipy
+
 matplotlib.use('TkAgg')  # Use TkAgg backend
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
@@ -21,10 +21,15 @@ class SignalProcessingApp:
 
         # Insert a template into the text input
         self.text_input.insert(tk.END,
-                               """def process_signal(x):
-                                   # Enter your code here
-                                   return x
-                               """)
+"""def process_signal(data):
+    import numpy as np
+    import scipy.signal as sig
+    
+    x  = data.x
+    fs = data.fs
+    t  = data.t 
+    
+    return x""")
 
         # Create the Update button
         self.update_button = ttk.Button(master, text="Update", command=self.update_plots)
@@ -73,7 +78,7 @@ class SignalProcessingApp:
             process_signal = local_namespace['process_signal']
 
             # Apply the process_signal function to x
-            y = process_signal(self.x)
+            y = process_signal(self)
 
             # Check if y is the same length as x
             if len(y) != len(self.x):
